@@ -9,11 +9,18 @@ Title: Gaming PC Case
 
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 
 export function Case(props) {
+  const caseRef = useRef();
   const { nodes, materials } = useGLTF("./case.glb");
+
+  useFrame((state, delta) => {
+    caseRef.current.position.y =
+      (Math.sin(state.clock.elapsedTime) - 0.1) * 0.3;
+  });
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} ref={caseRef}>
       <group
         name="Sketchfab_model"
         position={[0, 2, 13]}
